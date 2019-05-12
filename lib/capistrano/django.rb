@@ -44,8 +44,8 @@ namespace :python do
   task :create_virtualenv do
     on roles(:all) do |_h|
       execute "virtualenv -p python3 #{virtualenv_path}"
-      execute "sed -i '3i source #{fetch(:deploy_to)}/.env'  #{release_path}/virtualenv/bin/activate"
-      execute "sed -i '4i export $(cut -d= -f1 #{fetch(:deploy_to)}/.env)'  #{release_path}/virtualenv/bin/activate"
+      execute "sed -i '3i source #{fetch(:deploy_to)}/.env'  #{virtualenv_path}/bin/activate"
+      execute "sed -i '4i export $(cut -d= -f1 #{fetch(:deploy_to)}/.env)'  #{virtualenv_path}/bin/activate"
       execute "#{virtualenv_path}/bin/pip install -r #{release_path}/#{fetch(:pip_requirements)}"
       if fetch(:shared_virtualenv)
         execute :ln, '-s', virtualenv_path, File.join(release_path, 'virtualenv')
